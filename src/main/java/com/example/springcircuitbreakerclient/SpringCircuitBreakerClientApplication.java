@@ -1,5 +1,6 @@
 package com.example.springcircuitbreakerclient;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,11 +13,12 @@ import reactor.core.publisher.Mono;
 @SpringBootApplication
 public class  SpringCircuitBreakerClientApplication {
 
+    @Autowired
+    private BookService bookService;
+
     @RequestMapping("/read")
     public Mono<String> Read(){
-        return WebClient.builder().build()
-                .get().uri("https://localhost:8090/suggested")
-                .retrieve().bodyToMono(String.class);
+       return bookService.readingList();
     }
 
     public static void main(String[] args) {
